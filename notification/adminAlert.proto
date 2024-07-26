@@ -28,6 +28,15 @@ message CreateAdminAlertRequest {
     string message = 3;      // Ogohlantirish matni
 }
 
+
+// Request message for updating an admin alert
+message UpdateAdminAlertRequest {
+    string alert_id = 1;     // Ogohlantirish ID'si
+    AdminAlertType type = 2; // Ogohlantirish turi (yangilanishi mumkin)
+    string message = 3;      // Yangilangan ogohlantirish matni
+    bool is_read = 4;        // Yangilangan o'qilganligi holati
+}
+
 // Response message for admin alert operations
 message AdminAlertResponse {
     bool success = 1;        // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
@@ -52,6 +61,9 @@ service AdminAlertService {
 
     // Admin ogohlantirishini olish
     rpc GetAdminAlert (AdminAlertRequest) returns (AdminAlertResponse);
+
+    // Admin ogohlantirishini yangilash
+    rpc UpdateAdminAlert (UpdateAdminAlertRequest) returns (AdminAlertResponse);
 
     // Admin ogohlantirishini o'chirish
     rpc DeleteAdminAlert (AdminAlertRequest) returns (AdminAlertResponse);

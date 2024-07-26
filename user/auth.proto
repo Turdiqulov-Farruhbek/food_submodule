@@ -4,7 +4,6 @@ option go_package = "/genproto/user";
 
 package ecommerce;
 
-
 // User message to represent a user
 message User {
     string user_id = 1;     // Foydalanuvchi ID'si
@@ -47,6 +46,31 @@ message UserLoginResponse {
     User user = 4;          // Foydalanuvchi ma'lumotlari
 }
 
+// Request message for user CRUD operations
+message UserRequest {
+    string user_id = 1;     // Foydalanuvchi ID'si
+}
+
+// Request message for creating a user
+message CreateUserRequest {
+    string email = 1;       // Foydalanuvchi email manzili
+    string password = 2;    // Foydalanuvchi paroli
+}
+
+// Request message for updating a user
+message UpdateUserRequest {
+    string user_id = 1;     // Foydalanuvchi ID'si
+    string email = 2;       // Foydalanuvchi email manzili
+    string role = 3;        // Foydalanuvchi roli
+}
+
+// Response message for user CRUD operations
+message UserResponse {
+    bool success = 1;       // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
+    string message = 2;     // Javob xabari
+    User user = 3;          // Foydalanuvchi ma'lumotlari
+}
+
 // Request message for courier registration
 message CourierRegisterRequest {
     string email = 1;       // Kuryer email manzili
@@ -74,8 +98,32 @@ message CourierLoginResponse {
     Courier courier = 4;    // Kuryer ma'lumotlari
 }
 
-// Service to manage user and courier authentication
-service UserService {
+// Request message for courier CRUD operations
+message CourierRequest {
+    string courier_id = 1;  // Kuryer ID'si
+}
+
+// Request message for creating a courier
+message CreateCourierRequest {
+    string email = 1;       // Kuryer email manzili
+    string password = 2;    // Kuryer paroli
+}
+
+// Request message for updating a courier
+message UpdateCourierRequest {
+    string courier_id = 1;  // Kuryer ID'si
+    string email = 2;       // Kuryer email manzili
+}
+
+// Response message for courier CRUD operations
+message CourierResponse {
+    bool success = 1;       // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
+    string message = 2;     // Javob xabari
+    Courier courier = 3;    // Kuryer ma'lumotlari
+}
+
+// Service to manage user and courier authentication and CRUD operations
+service AuthService {
     // Foydalanuvchi uchun autentifikatsiyani amalga oshirish
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
 
@@ -87,4 +135,28 @@ service UserService {
 
     // Kuryer uchun ro'yxatdan o'tish
     rpc CourierRegister(CourierRegisterRequest) returns (CourierRegisterResponse);
+
+    // Foydalanuvchi yaratish
+    rpc CreateUser(CreateUserRequest) returns (UserResponse);
+
+    // Foydalanuvchi ma'lumotlarini olish
+    rpc GetUser(UserRequest) returns (UserResponse);
+
+    // Foydalanuvchi ma'lumotlarini yangilash
+    rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
+
+    // Foydalanuvchi o'chirish
+    rpc DeleteUser(UserRequest) returns (UserResponse);
+
+    // Kuryer yaratish
+    rpc CreateCourier(CreateCourierRequest) returns (CourierResponse);
+
+    // Kuryer ma'lumotlarini olish
+    rpc GetCourier(CourierRequest) returns (CourierResponse);
+
+    // Kuryer ma'lumotlarini yangilash
+    rpc UpdateCourier(UpdateCourierRequest) returns (CourierResponse);
+
+    // Kuryer o'chirish
+    rpc DeleteCourier(CourierRequest) returns (CourierResponse);
 }
