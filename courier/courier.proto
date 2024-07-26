@@ -36,6 +36,7 @@ message CourierResponse {
     Courier courier = 3;        // Kuryer ma'lumotlari (Create va Get operatsiyalari uchun)
 }
 
+
 // Request message for reading or deleting a courier by ID
 message CourierRequest {
     string courier_id = 1;      // Kuryerning noyob ID'si

@@ -2,13 +2,23 @@ syntax = "proto3";
 
 option go_package = "/genproto";
 
-import "courier_Order.proto";
-package ecommerce;
+// import "courier_Order.proto";
+
+package ordermanagement;
 
 // Enum for payment status
 enum PaymentStatus {
     PENDING = 0;  // To'lov holati: kutilyapti
     PAID = 1;     // To'lov holati: to'langan
+}
+
+// Order status enumeration
+enum OrderStatus {
+    PENDING_Status = 0;
+    ACCEPTED = 1;
+    IN_PROGRESS = 2;
+    DELIVERED = 3;
+    CANCELED = 4;
 }
 
 // Order message to represent an order
@@ -55,6 +65,37 @@ message OrderListResponse {
     repeated Order orders = 1; // Buyurtmalar ro'yxati
 }
 
+// Request message for creating a recommended order
+message GetRecommendedOrdersRequest {}
+
+// Response message for recommended orders
+message GetRecommendedOrdersResponse {
+    repeated Order orders = 1;
+}
+
+// Request message for updating order status
+message UpdateOrderStatusRequest {
+    string order_id = 1;
+    OrderStatus status = 2;
+}
+
+// Response message for updating order status
+message UpdateOrderStatusResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Request message for getting courier order history
+message GetCourierOrderHistoryRequest {
+    int32 courier_id = 1;
+}
+
+// Response message for courier order history
+message GetCourierOrderHistoryResponse {
+    repeated Order orders = 1;
+}
+
+
 // Service to manage orders
 service OrderService {
     // Buyurtma yaratish
@@ -70,6 +111,14 @@ service OrderService {
     rpc DeleteOrder (OrderRequest) returns (OrderResponse);
 
     // Barcha buyurtmalar ro'yxatini olish
-    rpc ListOrders (Empty) returns (OrderListResponse);
-}
+    rpc ListOrders (GetRecommendedOrdersRequest) returns (OrderListResponse);
 
+    // Tavsiya etilgan buyurtmalarni olish
+    rpc GetRecommendedOrders (GetRecommendedOrdersRequest) returns (GetRecommendedOrdersResponse);
+
+    // Buyurtma holatini yangilash
+    rpc UpdateOrderStatus (UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
+
+    // Kuryer buyurtma tarixini olish
+    rpc GetCourierOrderHistory (GetCourierOrderHistoryRequest) returns (GetCourierOrderHistoryResponse);
+}

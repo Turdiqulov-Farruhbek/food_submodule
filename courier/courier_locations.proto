@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option go_package = "/genproto";
+
+package courierlocations;
+
+// Request message for creating a courier location
+message CreateCourierLocationRequest {
+    string courier_id = 1;
+    double latitude = 2;
+    double longitude = 3;
+}
+
+// Response message for courier location operations
+message CourierLocationResponse {
+    string id = 1;
+    string courier_id = 2;
+    double latitude = 3;
+    double longitude = 4;
+    string updated_at = 5; // ISO 8601 timestamp format (e.g., "2023-12-31T12:34:56Z")
+}
+
+// Request message for getting a courier location by ID
+message GetCourierLocationRequest {
+    string id = 1;
+}
+
+// Request message for updating a courier location
+message UpdateCourierLocationRequest {
+    string id = 1;
+    double latitude = 2;
+    double longitude = 3;
+}
+
+// Request message for deleting a courier location by ID
+message DeleteCourierLocationRequest {
+    string id = 1;
+}
+
+// Response message for courier location deletion
+message DeleteCourierLocationResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Request message for getting all courier locations
+message GetAllCourierLocationsRequest {}
+
+// Response message for getting all courier locations
+message GetAllCourierLocationsResponse {
+    repeated CourierLocationResponse locations = 1;
+}
+
+// Service definition for courier location management
+service CourierLocationService {
+    rpc CreateCourierLocation(CreateCourierLocationRequest) returns (CourierLocationResponse);
+    rpc GetCourierLocation(GetCourierLocationRequest) returns (CourierLocationResponse);
+    rpc UpdateCourierLocation(UpdateCourierLocationRequest) returns (CourierLocationResponse);
+    rpc DeleteCourierLocation(DeleteCourierLocationRequest) returns (DeleteCourierLocationResponse);
+    rpc GetAllCourierLocations(GetAllCourierLocationsRequest) returns (GetAllCourierLocationsResponse);
+}

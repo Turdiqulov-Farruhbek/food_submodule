@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+option go_package = "/genproto";
+
+package taskmanagement;
+
+// Task status enumeration
+enum TaskStatus {
+    TODO = 0;
+    IN_PROGRESS = 1;
+    DONE = 2;
+}
+
+// Request message for creating a task
+message CreateTaskRequest {
+    string title = 1;
+    string description = 2;
+    TaskStatus status = 3;
+    int32 assigned_to = 4;
+    string due_date = 5; // ISO 8601 date format (e.g., "2023-12-31")
+}
+
+// Response message for task operations
+message TaskResponse {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    TaskStatus status = 4;
+    int32 assigned_to = 5;
+    string due_date = 6; // ISO 8601 date format (e.g., "2023-12-31")
+    string created_at = 7; // ISO 8601 timestamp format (e.g., "2023-12-31T12:34:56Z")
+    string updated_at = 8; // ISO 8601 timestamp format (e.g., "2023-12-31T12:34:56Z")
+}
+
+// Request message for getting a task by ID
+message GetTaskRequest {
+    string id = 1;
+}
+
+// Request message for updating a task
+message UpdateTaskRequest {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    TaskStatus status = 4;
+    int32 assigned_to = 5;
+    string due_date = 6; // ISO 8601 date format (e.g., "2023-12-31")
+}
+
+// Request message for deleting a task by ID
+message DeleteTaskRequest {
+    string id = 1;
+}
+
+// Response message for task deletion
+message DeleteTaskResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Request message for getting all tasks assigned to a user
+message GetAllTasksRequest {
+    int32 assigned_to = 1;
+}
+
+// Response message for getting all tasks
+message GetAllTasksResponse {
+    repeated TaskResponse tasks = 1;
+}
+
+// Service definition for task management
+service TaskService {
+    rpc CreateTask(CreateTaskRequest) returns (TaskResponse);
+    rpc GetTask(GetTaskRequest) returns (TaskResponse);
+    rpc UpdateTask(UpdateTaskRequest) returns (TaskResponse);
+    rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+    rpc GetAllTasks(GetAllTasksRequest) returns (GetAllTasksResponse);
+}
