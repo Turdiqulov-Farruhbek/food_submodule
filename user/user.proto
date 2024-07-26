@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "/genproto";
+option go_package = "/genproto/user";
 
 package ecommerce;
 
@@ -75,7 +75,7 @@ message CourierLoginResponse {
 }
 
 // Service to manage user and courier authentication
-service AuthService {
+service UserService {
     // Foydalanuvchi uchun autentifikatsiyani amalga oshirish
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
 

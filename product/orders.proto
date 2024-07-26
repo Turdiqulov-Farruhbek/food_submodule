@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "/genproto";
+option go_package = "/genproto/product";
 
 package ecommerce;
 
@@ -12,7 +12,7 @@ enum CardStatus {
 }
 
 // Order message to represent an order
-message Order {
+message OrderProduct {
     string order_id = 1;     // Buyurtma noyob ID'si
     string user_id = 2;      // Buyurtma bergan foydalanuvchi ID'si
     string created_at = 3;   // Buyurtma yaratilgan vaqti
@@ -21,56 +21,56 @@ message Order {
 }
 
 // Request message for creating a new order
-message CreateOrderRequest {
+message CreateOrderProductRequest {
     string user_id = 1;       // Buyurtma bergan foydalanuvchi ID'si
     CardStatus status = 2;    // Buyurtma holati
     float total_price = 3;    // Buyurtma umumiy summasi
 }
 
 // Request message for reading or deleting an order by ID
-message OrderRequest {
+message OrderProductRequest {
     string order_id = 1;     // Buyurtma noyob ID'si
 }
 
 // Request message for updating an order
-message UpdateOrderRequest {
+message UpdateOrderProductRequest {
     string order_id = 1;     // Buyurtma noyob ID'si
     CardStatus status = 2;   // Buyurtma holati
     float total_price = 3;   // Buyurtma umumiy summasi
 }
 
 // Response message for order operations
-message OrderResponse {
+message OrderProductResponse {
     bool success = 1;        // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
     string message = 2;      // Javob xabari
-    Order order = 3;         // Buyurtma ma'lumotlari (Create va Get operatsiyalari uchun)
+    OrderProduct order = 3;         // Buyurtma ma'lumotlari (Create va Get operatsiyalari uchun)
 }
 
 // Response message for listing all orders
-message OrderListResponse {
-    repeated Order orders = 1; // Buyurtmalar ro'yxati
+message OrderProductListResponse {
+    repeated OrderProduct orders = 1; // Buyurtmalar ro'yxati
 }
 
 // Service to manage orders
-service OrderService {
+service OrderProductService {
     // Buyurtma yaratish
-    rpc CreateOrder (CreateOrderRequest) returns (OrderResponse);
+    rpc CreateOrder (CreateOrderProductRequest) returns (OrderProductResponse);
     
     // Buyurtma ma'lumotlarini olish
-    rpc GetOrder (OrderRequest) returns (OrderResponse);
+    rpc GetOrder (OrderProductRequest) returns (OrderProductResponse);
     
     // Buyurtmani yangilash
-    rpc UpdateOrder (UpdateOrderRequest) returns (OrderResponse);
+    rpc UpdateOrder (UpdateOrderProductRequest) returns (OrderProductResponse);
     
     // Buyurtmani o'chirish
-    rpc DeleteOrder (OrderRequest) returns (OrderResponse);
+    rpc DeleteOrder (OrderProductRequest) returns (OrderProductResponse);
     
     // Buyurtmalar ro'yxatini olish
-    rpc ListOrders (OrderListRequest) returns (OrderListResponse);
+    rpc ListOrders (OrderProductListRequest) returns (OrderProductListResponse);
 }
 
 // Request message for listing all orders (with optional filters)
-message OrderListRequest {
+message OrderProductListRequest {
     string user_id = 1;      // Foydalanuvchi ID'si bo'yicha buyurtmalarni filtrlash (ixtiyoriy)
     CardStatus status = 2;   // Buyurtma holati bo'yicha buyurtmalarni filtrlash (ixtiyoriy)
 }
