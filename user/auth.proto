@@ -4,25 +4,44 @@ option go_package = "/genproto/user";
 
 package ecommerce;
 
+// User role and courier status enums
+enum UserRole {
+    USER = 0;
+    ADMIN = 1;
+}
+
+enum CourierStatus {
+    AVAILABLE = 0;
+    UNAVAILABLE = 1;
+    ON_DELIVERY = 2;
+}
+
 // User message to represent a user
 message User {
     string user_id = 1;     // Foydalanuvchi ID'si
     string email = 2;       // Foydalanuvchi email manzili
-    string role = 3;        // Foydalanuvchi roli ('user' or 'admin' or 'courier')
-    string created_at = 4;  // Foydalanuvchi yaratilgan vaqti
+    string full_name = 3;   // Foydalanuvchi to'liq ismi
+    UserRole role = 4;      // Foydalanuvchi roli
+    string created_at = 5;  // Foydalanuvchi yaratilgan vaqti
+    string updated_at = 6;  // Foydalanuvchi yangilangan vaqti
 }
 
 // Courier message to represent a courier
 message Courier {
-    string courier_id = 1;  // Kuryer ID'si
-    string email = 2;       // Kuryer email manzili
-    string created_at = 3;  // Kuryer yaratilgan vaqti
+    string courier_id = 1;   // Kuryer ID'si
+    string email = 2;        // Kuryer email manzili
+    string full_name = 3;    // Kuryer to'liq ismi
+    string phone_number = 4; // Kuryer telefon raqami
+    CourierStatus status = 5;// Kuryer holati
+    string created_at = 6;   // Kuryer yaratilgan vaqti
+    string updated_at = 7;   // Kuryer yangilangan vaqti
 }
 
 // Request message for user registration
 message UserRegisterRequest {
     string email = 1;       // Foydalanuvchi email manzili
     string password = 2;    // Foydalanuvchi paroli
+    string full_name = 3;   // Foydalanuvchi to'liq ismi
 }
 
 // Response message for user registration
@@ -55,13 +74,16 @@ message UserRequest {
 message CreateUserRequest {
     string email = 1;       // Foydalanuvchi email manzili
     string password = 2;    // Foydalanuvchi paroli
+    string full_name = 3;   // Foydalanuvchi to'liq ismi
+    UserRole role = 4;      // Foydalanuvchi roli
 }
 
 // Request message for updating a user
 message UpdateUserRequest {
     string user_id = 1;     // Foydalanuvchi ID'si
     string email = 2;       // Foydalanuvchi email manzili
-    string role = 3;        // Foydalanuvchi roli
+    string full_name = 3;   // Foydalanuvchi to'liq ismi
+    UserRole role = 4;      // Foydalanuvchi roli
 }
 
 // Response message for user CRUD operations
@@ -75,6 +97,8 @@ message UserResponse {
 message CourierRegisterRequest {
     string email = 1;       // Kuryer email manzili
     string password = 2;    // Kuryer paroli
+    string full_name = 3;   // Kuryer to'liq ismi
+    string phone_number = 4;// Kuryer telefon raqami
 }
 
 // Response message for courier registration
@@ -107,12 +131,18 @@ message CourierRequest {
 message CreateCourierRequest {
     string email = 1;       // Kuryer email manzili
     string password = 2;    // Kuryer paroli
+    string full_name = 3;   // Kuryer to'liq ismi
+    string phone_number = 4;// Kuryer telefon raqami
+    CourierStatus status = 5;// Kuryer holati
 }
 
 // Request message for updating a courier
 message UpdateCourierRequest {
     string courier_id = 1;  // Kuryer ID'si
     string email = 2;       // Kuryer email manzili
+    string full_name = 3;   // Kuryer to'liq ismi
+    string phone_number = 4;// Kuryer telefon raqami
+    CourierStatus status = 5;// Kuryer holati
 }
 
 // Response message for courier CRUD operations
@@ -120,6 +150,27 @@ message CourierResponse {
     bool success = 1;       // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
     string message = 2;     // Javob xabari
     Courier courier = 3;    // Kuryer ma'lumotlari
+}
+
+
+// user.proto
+
+message GetAllUsersRequest {}
+
+message GetAllUsersResponse {
+  bool success = 1;
+  string message = 2;
+  repeated User users = 3;
+}
+
+// courier.proto
+
+message GetAllCouriersRequest {}
+
+message GetAllCouriersResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Courier couriers = 3;
 }
 
 // Service to manage user and courier authentication and CRUD operations
@@ -142,21 +193,28 @@ service AuthService {
     // Foydalanuvchi ma'lumotlarini olish
     rpc GetUser(UserRequest) returns (UserResponse);
 
+    // Foydalanuvchilar ro'yxatini olish
+    rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
+
+    
     // Foydalanuvchi ma'lumotlarini yangilash
     rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
-
+    
     // Foydalanuvchi o'chirish
     rpc DeleteUser(UserRequest) returns (UserResponse);
-
+    
     // Kuryer yaratish
     rpc CreateCourier(CreateCourierRequest) returns (CourierResponse);
-
+    
     // Kuryer ma'lumotlarini olish
     rpc GetCourier(CourierRequest) returns (CourierResponse);
-
+    
+    // Kuryerlar ro'yxatini olish
+    rpc GetAllCouriers(GetAllCouriersRequest) returns (GetAllCouriersResponse);
+    
     // Kuryer ma'lumotlarini yangilash
     rpc UpdateCourier(UpdateCourierRequest) returns (CourierResponse);
-
+    
     // Kuryer o'chirish
     rpc DeleteCourier(CourierRequest) returns (CourierResponse);
 }
