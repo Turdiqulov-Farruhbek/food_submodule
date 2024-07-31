@@ -69,9 +69,9 @@ service AdminAlertService {
     rpc DeleteAdminAlert (AdminAlertRequest) returns (AdminAlertResponse);
 
     // Barcha admin ogohlantirishlarini olish
-    rpc ListAdminAlerts (Empty) returns (AdminAlertListResponse);
+    rpc ListAdminAlerts (EmptyAdmen) returns (AdminAlertListResponse);
 }
 
 
-// Empty message to use for RPCs that don't require any input
-message Empty {}
+// EmptyAdmen message to use for RPCs that don't require any input
+message EmptyAdmen {}

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/genproto/notification";
 
-import "adminAlert.proto";
+// import "adminAlert.proto";
 package ecommerce;
 
 // Enum for courier notification types
@@ -64,3 +64,4 @@ service CourierNotificationService {
 
 }
 
+message Empty {}

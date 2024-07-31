@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/genproto/notification";
 
-import "adminAlert.proto";
+// import "adminAlert.proto";
 package ecommerce;
 
 // Enum for notification types
@@ -59,7 +59,7 @@ service UserNotificationService {
     rpc DeleteUserNotification (UserNotificationRequest) returns (UserNotificationResponse);
 
     // Barcha foydalanuvchi bildirishnomalarini olish
-    rpc ListUserNotifications (Empty) returns (UserNotificationListResponse);
+    rpc ListUserNotifications (EmptyUser) returns (UserNotificationListResponse);
 }
 
-
+message EmptyUser {}
