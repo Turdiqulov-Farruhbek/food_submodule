@@ -10,10 +10,10 @@ enum UserRole {
     ADMIN = 1;
 }
 
-enum CourierStatus {
-    AVAILABLE = 0;
-    UNAVAILABLE = 1;
-    ON_DELIVERY = 2;
+enum CourierStatusAuth {
+    Courier_AVAILABLE = 0;
+    Courier_UNAVAILABLE = 1;
+    Courier_ON_DELIVERY = 2;
 }
 
 // User message to represent a user
@@ -27,19 +27,19 @@ message User {
 }
 
 // Courier message to represent a courier
-message Courier {
+message CourierAuth {
     string courier_id = 1;   // Kuryer ID'si
     string email = 2;        // Kuryer email manzili
     string full_name = 3;    // Kuryer to'liq ismi
     string phone_number = 4; // Kuryer telefon raqami
-    CourierStatus status = 5;// Kuryer holati
+    CourierStatusAuth status = 5;// Kuryer holati
     string created_at = 6;   // Kuryer yaratilgan vaqti
     string updated_at = 7;   // Kuryer yangilangan vaqti
 }
 
 // Request message for user registration
 message UserRegisterRequest {
-    string email = 1;       // Foydalanuvchi email manzili
+    string email = 1;       // Foydalanuvchi email manzilix
     string password = 2;    // Foydalanuvchi paroli
     string full_name = 3;   // Foydalanuvchi to'liq ismi
 }
@@ -105,7 +105,7 @@ message CourierRegisterRequest {
 message CourierRegisterResponse {
     bool success = 1;       // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
     string message = 2;     // Javob xabari
-    Courier courier = 3;    // Kuryer ma'lumotlari
+    CourierAuth courier = 3;    // Kuryer ma'lumotlari
 }
 
 // Request message for courier login
@@ -119,37 +119,37 @@ message CourierLoginResponse {
     bool success = 1;       // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
     string message = 2;     // Javob xabari
     string token = 3;       // JWT token or session ID
-    Courier courier = 4;    // Kuryer ma'lumotlari
+    CourierAuth courier = 4;    // Kuryer ma'lumotlari
 }
 
 // Request message for courier CRUD operations
-message CourierRequest {
+message CourierRequestAuth {
     string courier_id = 1;  // Kuryer ID'si
 }
 
 // Request message for creating a courier
-message CreateCourierRequest {
+message CreateCourierRequestAuth {
     string email = 1;       // Kuryer email manzili
     string password = 2;    // Kuryer paroli
     string full_name = 3;   // Kuryer to'liq ismi
     string phone_number = 4;// Kuryer telefon raqami
-    CourierStatus status = 5;// Kuryer holati
+    CourierStatusAuth status = 5;// Kuryer holati
 }
 
 // Request message for updating a courier
-message UpdateCourierRequest {
+message UpdateCourierRequestAuth {
     string courier_id = 1;  // Kuryer ID'si
     string email = 2;       // Kuryer email manzili
     string full_name = 3;   // Kuryer to'liq ismi
     string phone_number = 4;// Kuryer telefon raqami
-    CourierStatus status = 5;// Kuryer holati
+    CourierStatusAuth status = 5;// Kuryer holati
 }
 
 // Response message for courier CRUD operations
-message CourierResponse {
+message CourierResponseAuth {
     bool success = 1;       // Amaliyot muvaffaqiyatli bo'lganligini bildiruvchi flag
     string message = 2;     // Javob xabari
-    Courier courier = 3;    // Kuryer ma'lumotlari
+    CourierAuth courier = 3;    // Kuryer ma'lumotlari
 }
 
 
@@ -170,7 +170,7 @@ message GetAllCouriersRequest {}
 message GetAllCouriersResponse {
   bool success = 1;
   string message = 2;
-  repeated Courier couriers = 3;
+  repeated CourierAuth couriers = 3;
 }
 
 // Service to manage user and courier authentication and CRUD operations
@@ -204,17 +204,17 @@ service AuthService {
     rpc DeleteUser(UserRequest) returns (UserResponse);
     
     // Kuryer yaratish
-    rpc CreateCourier(CreateCourierRequest) returns (CourierResponse);
+    rpc CreateCourier(CreateCourierRequestAuth) returns (CourierResponseAuth);
     
     // Kuryer ma'lumotlarini olish
-    rpc GetCourier(CourierRequest) returns (CourierResponse);
+    rpc GetCourier(CourierRequestAuth) returns (CourierResponseAuth);
     
     // Kuryerlar ro'yxatini olish
     rpc GetAllCouriers(GetAllCouriersRequest) returns (GetAllCouriersResponse);
     
     // Kuryer ma'lumotlarini yangilash
-    rpc UpdateCourier(UpdateCourierRequest) returns (CourierResponse);
+    rpc UpdateCourier(UpdateCourierRequestAuth) returns (CourierResponseAuth);
     
     // Kuryer o'chirish
-    rpc DeleteCourier(CourierRequest) returns (CourierResponse);
+    rpc DeleteCourier(CourierRequestAuth) returns (CourierResponseAuth);
 }

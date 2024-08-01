@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/genproto/product";
 
-import "cart.proto";
+// import "cart.proto";
 package ecommerce;
 
 // Enum for recommendation status
@@ -70,7 +70,7 @@ service OrderRecommendationService {
     rpc DeleteOrderRecommendation (OrderRecommendationRequest) returns (OrderRecommendationResponse);
     
     // Barcha buyurtma tavsiyalari ro'yxatini olish
-    rpc ListOrderRecommendations (Empty) returns (OrderRecommendationListResponse);
+    rpc ListOrderRecommendations (EmptyOrderRecom) returns (OrderRecommendationListResponse);
 }
 
-
+message EmptyOrderRecom {}

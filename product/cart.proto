@@ -54,8 +54,8 @@ service CartService {
     rpc DeleteCart (CartRequest) returns (CartResponse);
     
     // Savatlar ro'yxatini olish
-    rpc ListCarts (Empty) returns (CartListResponse);
+    rpc ListCarts (EmptyCart) returns (CartListResponse);
 }
 
-// Empty message to use for RPCs that don't require any input
-message Empty {}
+// EmptyCart message to use for RPCs that don't require any input
+message EmptyCart {}

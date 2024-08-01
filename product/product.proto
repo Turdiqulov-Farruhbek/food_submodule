@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/genproto/product";
 
-import "cart.proto";
+// import "cart.proto";
 package ecommerce;
 
 // Product message to represent a product
@@ -63,7 +63,8 @@ service ProductService {
     rpc DeleteProduct (ProductRequest) returns (ProductResponse);
     
     // Mahsulotlar ro'yxatini olish
-    rpc ListProducts (Empty) returns (ProductListResponse);
+    rpc ListProducts (EmptyProduct) returns (ProductListResponse);
 }
 
 
+message EmptyProduct {}

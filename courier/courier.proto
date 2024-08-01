@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/genproto/courier";
 
-import "courier_Order.proto";
+// import "courier_Order.proto";
 package ecommerce;
 
 // Enum for courier status
@@ -71,7 +71,7 @@ service CourierService {
     rpc DeleteCourier (CourierRequest) returns (CourierResponse);
     
     // Barcha kuryerlar ro'yxatini olish
-    rpc ListCouriers (Empty) returns (CourierListResponse);
+    rpc ListCouriers (EmptyCourier) returns (CourierListResponse);
 }
 
-
+message EmptyCourier {}

@@ -72,8 +72,8 @@ service CourierOrderService {
     rpc DeleteCourierOrder (CourierOrderRequest) returns (CourierOrderResponse);
 
     // Barcha kuryer-buyurtma munosabatlari ro'yxatini olish
-    rpc ListCourierOrders (Empty) returns (CourierOrderListResponse);
+    rpc ListCourierOrders (EmptyCourierOrder) returns (CourierOrderListResponse);
 }
 
-// Empty message to use for RPCs that don't require any input
-message Empty {}
+// EmptyCourierOrder message to use for RPCs that don't require any input
+message EmptyCourierOrder {}
